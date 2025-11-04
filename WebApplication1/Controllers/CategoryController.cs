@@ -41,7 +41,24 @@ namespace WebApplication1.Controllers
 
             return View(category);
         }
+        /*[Authorize] // Ou sur des actions spécifiques
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var category = await _repository.f(m => m.CategoryId == id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+        }
+        */
         // GET: Category/Create
         public IActionResult Create()
         {

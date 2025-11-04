@@ -7,42 +7,41 @@ namespace WebApplication1.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: AccountController
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser>
-        signInManager;
-        public AccountController(UserManager<IdentityUser>
-        userManager, SignInManager<IdentityUser> signInManager)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public AccountController(UserManager<IdentityUser> userManager,
+                               SignInManager<IdentityUser> signInManager)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Copy data from RegisterViewModel to IdentityUser
                 var user = new IdentityUser
                 {
                     UserName = model.Email,
                     Email = model.Email
                 };
-                // Store user data in AspNetUsers database table
-                var result = await userManager.CreateAsync(user, model.Password);
-                // If user is successfully created, sign-in the user using
-                // SignInManager and redirect to index action of HomeController
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("index", "home");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
                 }
-                // If there are any errors, add them to the ModelState object
-                // which will be displayed by the validation summary tag helper
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -50,40 +49,44 @@ namespace WebApplication1.Controllers
             }
             return View(model);
         }
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email,
-                model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    model.Email, model.Password, model.RememberMe, false);
+
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        return LocalRedirect(returnUrl);
+                        return Redirect(returnUrl);
                     }
                     else
                     {
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
+                ModelState.AddModelError(string.Empty, "Tentative de connexion invalide");
             }
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         [AllowAnonymous]
         public IActionResult AccessDenied()
@@ -91,5 +94,4 @@ namespace WebApplication1.Controllers
             return View();
         }
     }
-
-    }
+}

@@ -23,7 +23,13 @@ builder.Services.AddDbContextPool<AppDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
-
+// Dans Program.cs
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.LogoutPath = "/Account/Logout";
+});
 // Configurer les options du mot de passe
 builder.Services.Configure<IdentityOptions>(options =>
 {

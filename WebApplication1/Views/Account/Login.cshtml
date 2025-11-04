@@ -1,194 +1,236 @@
-﻿@model WebApplication1.ViewModels.LoginViewModel
+﻿@model WebApplication1.ViewModels.RegisterViewModel
 @{
-    ViewBag.Title = "User Login";
+    ViewBag.Title = "User Registration";
+    Layout = null;
 }
-<!--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);-->
-<style>
-    .login-container {
-        min-height: 100vh;
-        min-width: 1024vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-        padding: 0rem 0;
-    }
-
-    .login-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 40px;
-        width: 100%;
-        max-width: 450px;
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-     fadeInUp {
-        from
-
-    {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    }
-
-    .login-title {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #2d3748;
-        margin-bottom: 10px;
-        text-align: center;
-    }
-
-    .login-subtitle {
-        color: #718096;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 0.95rem;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-    .form-control {
-        width: 100%;
-        padding: 12px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background-color: #f7fafc;
-    }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-    .checkbox-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 25px;
-    }
-
-        .checkbox-container input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .checkbox-container label {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - TrendShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrapMinty.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
             margin: 0;
+            padding: 0;
+        }
+
+        .registration-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .registration-subtitle {
+            color: #718096;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                color: #4a5568;
+                margin-bottom: 8px;
+                font-size: 0.9rem;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f7fafc;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #667eea;
+                background-color: white;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            color: #4a5568;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin-bottom: 20px;
+        }
+
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+
+            .btn-register:active {
+                transform: translateY(0);
+            }
+
+        .btn-login-link {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+            .btn-login-link:hover {
+                background: #667eea;
+                color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                text-decoration: none;
+            }
+
+        .text-danger {
+            color: #e53e3e;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .validation-summary {
+            background-color: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .validation-summary-errors {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .login-link-container {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .login-text {
+            color: #718096;
+            margin-bottom: 10px;
             font-size: 0.9rem;
-            user-select: none;
         }
 
-    .btn-login {
-        width: 100%;
-        padding: 14px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    }
+        @@media (max-width: 576px) {
+            .registration-card {
+                padding: 30px 20px;
+            }
 
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            .registration-title {
+                font-size: 1.5rem;
+            }
         }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-card">
+            <h1 class="registration-title">Inscription</h1>
+            <p class="registration-subtitle">Créez votre compte pour commencer</p>
 
-        .btn-login:active {
-            transform: translateY(0);
-        }
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger validation-summary"></div>
 
-    .text-danger {
-        color: #e53e3e;
-        font-size: 0.85rem;
-        margin-top: 5px;
-        display: block;
-    }
+                <div class="form-group">
+                    <label asp-for="Email">Adresse e-mail</label>
+                    <input asp-for="Email" class="form-control" placeholder="votre@email.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
 
-    .validation-summary {
-        background-color: #fff5f5;
-        border: 1px solid #feb2b2;
-        border-radius: 8px;
-        padding: 12px;
-        margin-bottom: 20px;
-    }
+                <div class="form-group">
+                    <label asp-for="Password">Mot de passe</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
 
-     (max-width: 576px) {
-        .login-card
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Confirmer le mot de passe</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="••••••••" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
 
-    {
-        padding: 30px 20px;
-    }
+                <button type="submit" class="btn-register">S'inscrire</button>
+            </form>
 
-    .login-title {
-        font-size: 1.5rem;
-    }
-
-    }
-</style>
-
-<div class="login-container">
-    <div class="login-card">
-        <h1 class="login-title">Connexion</h1>
-        <p class="login-subtitle">Connectez-vous à votre compte</p>
-
-        @{
-            var returnUrl = Context.Request.Query["ReturnUrl"];
-        }
-
-        <form asp-route-returnurl="@returnUrl" method="post">
-            <div asp-validation-summary="All" class="text-danger validation-summary"></div>
-
-            <div class="form-group">
-                <label asp-for="Email">Adresse e-mail</label>
-                <input asp-for="Email" class="form-control" placeholder="votre@email.com" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="login-link-container">
+                <p class="login-text">Vous avez déjà un compte ?</p>
+                <a asp-controller="Account" asp-action="Login" class="btn-login-link">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Se connecter
+                </a>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Password">Mot de passe</label>
-                <input asp-for="Password" class="form-control" placeholder="••••••••" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="checkbox-container">
-                <input asp-for="RememberMe" type="checkbox" />
-                <label asp-for="RememberMe">
-                    @Html.DisplayNameFor(m => m.RememberMe)
-                </label>
-            </div>
-
-            <button type="submit" class="btn-login">Se connecter</button>
-        </form>
+        </div>
     </div>
-</div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

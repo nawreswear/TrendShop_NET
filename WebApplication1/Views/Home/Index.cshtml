@@ -3,248 +3,69 @@
 }
 
 <style>
-    /* Refined color palette with theme synchronization */
+    /* Utilisation des mêmes variables CSS que le layout */
     :root {
-        --primary-navy: #1e3a8a;
-        --primary-blue: #2563eb;
-        --accent-sky: #0ea5e9;
-        --light-bg: #eff6ff;
-        --text-primary: #1a202c;
-        --text-secondary: #4a5568;
-        --card-bg: #ffffff;
-        --border-color: #e2e8f0;
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --accent-color: #8b5cf6;
+        --accent-hover: #7c3aed;
         --bg-primary: #ffffff;
-        --hero-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%);
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --border-color: #e2e8f0;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Variables spécifiques à la page d'accueil */
+        --hero-gradient: var(--primary-gradient);
+        --feature-icon-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --feature-icon-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --feature-icon-3: linear-gradient(135deg, #4fd1c5 0%, #319795 100%);
     }
 
     [data-theme="dark"] {
-        --light-bg: #0f172a;
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        --secondary-gradient: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+        --accent-color: #8b5cf6;
+        --accent-hover: #a78bfa;
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
         --text-primary: #f1f5f9;
         --text-secondary: #cbd5e1;
-        --card-bg: #1e293b;
-        --border-color: #334155;
-        --bg-primary: #0f172a;
-        --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%);
+        --text-muted: #94a3b8;
+        --border-color: #475569;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        /* Variables spécifiques dark mode */
+        --hero-gradient: var(--primary-gradient);
+        --feature-icon-1: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        --feature-icon-2: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+        --feature-icon-3: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
     }
 
-    /* Hero Section - Sophisticated and Minimal */
+    /* Hero Section améliorée avec animations */
     .hero-elegant {
-        min-height: 75vh;
+        min-height: 85vh;
         background: var(--hero-gradient);
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-        /* Subtle geometric pattern overlay */
-        .hero-elegant::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03));
-            background-size: 80px 140px;
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-    .hero-content {
-        max-width: 900px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .hero-elegant h1 {
-        font-size: 3.75rem;
-        font-weight: 300;
-        color: white;
-        letter-spacing: -0.02em;
-        line-height: 1.15;
-        margin-bottom: 1.5rem;
-    }
-
-    /* Elegant text highlight with subtle animation */
-    .text-elegant-highlight {
-        font-weight: 600;
-        position: relative;
-        display: inline-block;
-    }
-
-        .text-elegant-highlight::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 2px;
-        }
-
-    .hero-elegant .lead {
-        font-size: 1.25rem;
-        color: rgba(255, 255, 255, 0.9);
-        font-weight: 300;
-        line-height: 1.7;
-        max-width: 700px;
-        margin: 0 auto 3rem;
-    }
-
-    /* Refined button styling without emojis */
-    .btn-elegant-primary {
-        background: white;
-        color: var(--primary-navy);
-        border: none;
-        font-weight: 500;
-        letter-spacing: 0.3px;
-        padding: 1rem 2.5rem;
-        border-radius: 8px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-    }
-
-        .btn-elegant-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            background: #f8f9fa;
-            color: var(--primary-navy);
-        }
-
-    .btn-elegant-secondary {
-        background: transparent;
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        font-weight: 500;
-        letter-spacing: 0.3px;
-        padding: 1rem 2.5rem;
-        border-radius: 8px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        backdrop-filter: blur(10px);
-    }
-
-        .btn-elegant-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-            transform: translateY(-2px);
-            color: white;
-        }
-
-    /* Features Section - Synchronized with theme */
-    .features-elegant {
-        padding: 6rem 0;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .section-title {
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: var(--text-primary);
-        margin-bottom: 1rem;
-        letter-spacing: -0.01em;
-        transition: color 0.3s ease;
-    }
-
-    .section-subtitle {
-        font-size: 1.1rem;
-        color: var(--text-secondary);
-        font-weight: 300;
-        max-width: 600px;
-        margin: 0 auto 4rem;
-        transition: color 0.3s ease;
-    }
-
-    /* Professional feature cards synchronized with theme */
-    .feature-elegant {
-        background: var(--card-bg);
-        color: var(--text-primary);
-        border-radius: 12px;
-        padding: 2.5rem 2rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid var(--border-color);
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-
-        .feature-elegant::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-navy), var(--accent-sky));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .feature-elegant:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12);
-            border-color: rgba(37, 99, 235, 0.15);
-        }
-
-            .feature-elegant:hover::before {
-                transform: scaleX(1);
-            }
-
-    .feature-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 12px;
+        transition: var(--transition);
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin: 0 auto 1.5rem;
-        font-size: 1.75rem;
-        font-weight: 600;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
     }
 
-    .feature-icon-security {
-        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-        color: white;
-    }
-
-    .feature-icon-analytics {
-        background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
-        color: white;
-    }
-
-    .feature-icon-organization {
-        background: linear-gradient(135deg, #0ea5e9 0%, #7dd3fc 100%);
-        color: white;
-    }
-
-    .feature-elegant:hover .feature-icon {
-        transform: scale(1.1) rotate(-5deg);
-    }
-
-    .feature-elegant h5 {
-        color: var(--text-primary);
-        font-size: 1.35rem;
-        margin-bottom: 1rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        transition: color 0.3s ease;
-    }
-
-    .feature-elegant p {
-        color: var(--text-secondary);
-        font-size: 1rem;
-        line-height: 1.7;
-        margin-bottom: 0;
-        font-weight: 300;
-        transition: color 0.3s ease;
-    }
-
-    /* Theme toggle button for this page */
+    /* Bouton de thème pour la page d'accueil */
     .theme-toggle-hero {
         position: absolute;
         top: 2rem;
@@ -263,45 +84,502 @@
         gap: 0.75rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(20px);
         font-size: 0.9rem;
     }
 
         .theme-toggle-btn-hero:hover {
             background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
         }
 
     .theme-icon-hero {
         font-size: 1rem;
-        transition: transform 0.3s ease;
+        transition: transform 0.4s ease;
     }
 
     .theme-toggle-btn-hero:hover .theme-icon-hero {
         transform: scale(1.1);
     }
 
-    /* Theme-aware transitions */
-    * {
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    .theme-text-hero {
+        font-weight: 500;
+    }
+
+    /* Éléments flottants animés */
+    .floating-element {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+        backdrop-filter: blur(10px);
+    }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 40%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        .floating-element:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            bottom: 30%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+    @@keyframes float {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        33% {
+            transform: translateY(-20px) rotate(120deg);
+        }
+
+        66% {
+            transform: translateY(10px) rotate(240deg);
+        }
+    }
+
+    /* Animation de fond dynamique */
+    .hero-elegant::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.08) 0%, transparent 50%);
+        animation: backgroundPulse 8s ease-in-out infinite;
+    }
+
+    @@keyframes backgroundPulse {
+        0%, 100% {
+            opacity: 0.6;
+        }
+
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .hero-content {
+        max-width: 900px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-elegant h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        animation: slideInUp 1s ease-out;
+    }
+
+    .text-elegant-highlight {
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        display: inline-block;
+    }
+
+        .text-elegant-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+    @@keyframes shimmer {
+        0%, 100% {
+            transform: translateX(-100%);
+        }
+
+        50% {
+            transform: translateX(100%);
+        }
+    }
+
+    .hero-elegant .lead {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        animation: slideInUp 1s ease-out 0.2s both;
+    }
+
+    /* Animations d'entrée */
+    @@keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Boutons avec animations améliorées */
+    .btn-elegant-primary {
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--accent-color);
+        border: none;
+        font-weight: 600;
+        padding: 1rem 2.5rem;
+        border-radius: var(--radius-md);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-lg);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 1s ease-out 0.4s both;
+    }
+
+        .btn-elegant-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-elegant-primary:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            color: var(--accent-hover);
+        }
+
+            .btn-elegant-primary:hover::before {
+                left: 100%;
+            }
+
+    .btn-elegant-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        font-weight: 600;
+        padding: 1rem 2.5rem;
+        border-radius: var(--radius-md);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 1s ease-out 0.6s both;
+    }
+
+        .btn-elegant-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .btn-elegant-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: white;
+            transform: translateY(-3px);
+            color: white;
+        }
+
+            .btn-elegant-secondary:hover::before {
+                opacity: 1;
+            }
+
+    /* Features Section avec animations */
+    .features-elegant {
+        padding: 6rem 0;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+        animation: fadeIn 1s ease-out;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto 4rem;
+        line-height: 1.6;
+        animation: fadeIn 1s ease-out 0.2s both;
+    }
+
+    /* Cartes de features avec animations avancées */
+    .feature-elegant {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border-radius: var(--radius-lg);
+        padding: 2.5rem 2rem;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border-color);
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+        .feature-elegant.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-elegant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-elegant:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent-color);
+        }
+
+            .feature-elegant:hover::before {
+                transform: scaleX(1);
+            }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 2rem;
+        color: white;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon-security {
+        background: var(--feature-icon-1);
+    }
+
+    .feature-icon-analytics {
+        background: var(--feature-icon-2);
+    }
+
+    .feature-icon-organization {
+        background: var(--feature-icon-3);
+    }
+
+    .feature-elegant:hover .feature-icon {
+        transform: scale(1.15) rotate(10deg);
+    }
+
+    .feature-elegant h5 {
+        color: var(--text-primary);
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .feature-elegant p {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0;
+        transition: color 0.3s ease;
+    }
+
+    /* Stats Section avec animations */
+    .stats-section {
+        padding: 4rem 0;
+        background: var(--bg-secondary);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .stat-card {
+        text-align: center;
+        padding: 2rem 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+    }
+
+        .stat-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+    }
+
+    .count-animation {
+        animation: countUp 2s ease-out;
+    }
+
+    @@keyframes countUp {
+        from {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    /* CTA Section avec animations */
+    .cta-section {
+        padding: 6rem 0;
+        background: var(--hero-gradient);
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: backgroundPulse 6s ease-in-out infinite;
+        }
+
+    .cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 2;
+        animation: slideInUp 1s ease-out;
+    }
+
+    .cta-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+        position: relative;
+        z-index: 2;
+        animation: slideInUp 1s ease-out 0.2s both;
     }
 
     /* Responsive Design */
     @@media (max-width: 768px) {
-        .hero-elegant h1 {
-            font-size: 2.5rem;
-        }
-
-        .hero-elegant .lead {
-            font-size: 1.1rem;
-        }
-
         .hero-elegant {
-            min-height: 65vh;
+            min-height: 70vh;
         }
+
+            .hero-elegant h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-elegant .lead {
+                font-size: 1.1rem;
+            }
 
         .features-elegant {
             padding: 4rem 0;
@@ -315,6 +593,22 @@
         .btn-elegant-secondary {
             padding: 0.875rem 2rem;
             font-size: 0.95rem;
+        }
+
+        .feature-elegant {
+            padding: 2rem 1.5rem;
+        }
+
+        .cta-section {
+            padding: 4rem 0;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+        }
+
+        .floating-element {
+            display: none;
         }
 
         .theme-toggle-hero {
@@ -339,7 +633,15 @@
 
         .hero-elegant .lead {
             font-size: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
         }
 
         .theme-toggle-btn-hero {
@@ -352,24 +654,35 @@
     }
 </style>
 
-
-
 <!-- Hero Section -->
-<section class="hero-elegant d-flex align-items-center text-center">
+<section class="hero-elegant">
+    <!-- Éléments flottants animés -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Bouton de thème -->
+   
+
     <div class="container">
-        <div class="hero-content mx-auto">
+        <div class="hero-content mx-auto text-center">
             <h1 class="mb-4">
                 Bienvenue sur <span class="text-elegant-highlight">TrendShop</span>
             </h1>
             <p class="lead">
-                Une plateforme moderne et intuitive pour gérer efficacement vos produits et catégories avec élégance et simplicité.
+                Découvrez une expérience shopping exceptionnelle avec une plateforme moderne,
+                intuitive et élégante pour gérer efficacement vos produits et catégories.
             </p>
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a class="btn btn-elegant-primary" asp-controller="Product" asp-action="Index">
-                    Voir les Produits
+                    <i class="fas fa-shopping-bag me-2"></i>
+                    Explorer les Produits
                 </a>
                 <a class="btn btn-elegant-secondary" asp-controller="Category" asp-action="Index">
-                    Voir les Catégories
+                    <i class="fas fa-tags me-2"></i>
+                    Parcourir les Catégories
                 </a>
             </div>
         </div>
@@ -382,43 +695,102 @@
         <div class="text-center mb-5">
             <h2 class="section-title">Fonctionnalités Principales</h2>
             <p class="section-subtitle">
-                Découvrez les outils puissants qui simplifient la gestion de votre inventaire
+                Une suite complète d'outils conçus pour optimiser votre expérience de gestion
+                avec élégance et efficacité
             </p>
         </div>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="feature-elegant">
+                <div class="feature-elegant" data-animate>
                     <div class="feature-icon feature-icon-security">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h5>Sécurité Intégrée</h5>
-                    <p>Système d'authentification robuste avec gestion des rôles : Administrateur, Manager et Utilisateur.</p>
+                    <h5>Sécurité Avancée</h5>
+                    <p>
+                        Système d'authentification multi-niveaux avec gestion fine des permissions
+                        et protection des données sensibles.
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-elegant">
+                <div class="feature-elegant" data-animate>
                     <div class="feature-icon feature-icon-analytics">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <h5>Tableaux Intuitifs</h5>
-                    <p>Interface claire et performante pour le suivi en temps réel de vos produits et de vos stocks.</p>
+                    <h5>Analyses Intelligentes</h5>
+                    <p>
+                        Tableaux de bord performants avec métriques en temps réel pour un suivi
+                        optimal de votre inventaire et performances.
+                    </p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-elegant">
+                <div class="feature-elegant" data-animate>
                     <div class="feature-icon feature-icon-organization">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-                        </svg>
+                        <i class="fas fa-layer-group"></i>
                     </div>
-                    <h5>Organisation Claire</h5>
-                    <p>Système de catégorisation avancé pour une navigation fluide et une gestion optimale de votre catalogue.</p>
+                    <h5>Organisation Optimale</h5>
+                    <p>
+                        Architecture de catégorisation avancée permettant une navigation fluide
+                        et une gestion simplifiée de votre catalogue.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-card" data-animate>
+                    <div class="stat-number count-animation">99.9%</div>
+                    <div class="stat-label">Disponibilité</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card" data-animate>
+                    <div class="stat-number count-animation">500+</div>
+                    <div class="stat-label">Produits Gérés</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card" data-animate>
+                    <div class="stat-number count-animation">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card" data-animate>
+                    <div class="stat-number count-animation">1K+</div>
+                    <div class="stat-label">Utilisateurs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="cta-title">Prêt à Transformer Votre Expérience ?</h2>
+                <p class="cta-subtitle">
+                    Rejoignez des milliers d'utilisateurs qui ont déjà adopté TrendShop
+                    pour une gestion simplifiée et professionnelle de leur inventaire.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a class="btn btn-elegant-primary" asp-controller="Account" asp-action="Register">
+                        <i class="fas fa-rocket me-2"></i>
+                        Commencer Maintenant
+                    </a>
+                    <a class="btn btn-elegant-secondary" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-info-circle me-2"></i>
+                        En Savoir Plus
+                    </a>
                 </div>
             </div>
         </div>
@@ -426,12 +798,15 @@
 </section>
 
 <script>
-    // Fonction pour changer le thème
+    // Gestion du thème pour la page d'accueil
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         const icon = document.getElementById('heroThemeIcon');
         const text = document.getElementById('heroThemeText');
+
+        // Ajouter une classe de transition pour un changement fluide
+        document.documentElement.classList.add('theme-transitioning');
 
         // Changer le thème
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -439,35 +814,45 @@
 
         // Mettre à jour l'icône et le texte
         if (newTheme === 'dark') {
-            if (icon) icon.className = 'fas fa-sun theme-icon-hero';
-            if (text) text.textContent = '';
+            if (icon) {
+                icon.className = 'fas fa-sun theme-icon-hero';
+                icon.style.transform = 'rotate(360deg)';
+            }
+            if (text) text.textContent = 'Mode Clair';
         } else {
-            if (icon) icon.className = 'fas fa-moon theme-icon-hero';
-            if (text) text.textContent = '';
+            if (icon) {
+                icon.className = 'fas fa-moon theme-icon-hero';
+                icon.style.transform = 'rotate(0deg)';
+            }
+            if (text) text.textContent = 'Mode Sombre';
         }
 
         // Mettre à jour le gradient de la hero section
         updateHeroGradient(newTheme);
 
-        // Déclencher un événement pour les composants qui en ont besoin
+        // Retirer la classe de transition après l'animation
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transitioning');
+        }, 500);
+
+        // Déclencher un événement pour les autres composants
         window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
     }
 
-    // Fonction pour mettre à jour le gradient de la hero section
+    // Mettre à jour le gradient de la hero section
     function updateHeroGradient(theme) {
         const heroSection = document.querySelector('.hero-elegant');
         if (heroSection) {
             if (theme === 'dark') {
-                heroSection.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%)';
+                heroSection.style.background = 'var(--primary-gradient)';
             } else {
-                heroSection.style.background = 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%)';
+                heroSection.style.background = 'var(--primary-gradient)';
             }
         }
     }
 
-    // Synchronisation avec le thème du layout
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialiser le thème au chargement
+    // Initialiser le thème au chargement
+    function initTheme() {
         const theme = localStorage.getItem('theme') || 'light';
         const icon = document.getElementById('heroThemeIcon');
         const text = document.getElementById('heroThemeText');
@@ -478,65 +863,124 @@
         // Mettre à jour l'icône et le texte
         if (theme === 'dark') {
             if (icon) icon.className = 'fas fa-sun theme-icon-hero';
-            if (text) text.textContent = '';
+            if (text) text.textContent = 'Mode Clair';
         } else {
             if (icon) icon.className = 'fas fa-moon theme-icon-hero';
-            if (text) text.textContent = '';
+            if (text) text.textContent = 'Mode Sombre';
         }
 
         // Mettre à jour le gradient de la hero section
         updateHeroGradient(theme);
-
-        // Écouter les changements de thème depuis d'autres composants
-        window.addEventListener('themeChanged', function(event) {
-            const theme = event.detail;
-            const icon = document.getElementById('heroThemeIcon');
-            const text = document.getElementById('heroThemeText');
-
-            if (theme === 'dark') {
-                if (icon) icon.className = 'fas fa-sun theme-icon-hero';
-                if (text) text.textContent = '';
-            } else {
-                if (icon) icon.className = 'fas fa-moon theme-icon-hero';
-                if (text) text.textContent = '';
-            }
-
-            // Mettre à jour le gradient de la hero section
-            updateHeroGradient(theme);
-        });
-    });
-
-    function updatePageTheme(theme) {
-        // Mettre à jour les variables CSS spécifiques à la page
-        const root = document.documentElement;
-
-        if (theme === 'dark') {
-            root.style.setProperty('--light-bg', '#0f172a');
-            root.style.setProperty('--text-primary', '#f1f5f9');
-            root.style.setProperty('--text-secondary', '#cbd5e1');
-            root.style.setProperty('--card-bg', '#1e293b');
-            root.style.setProperty('--border-color', '#334155');
-            root.style.setProperty('--bg-primary', '#0f172a');
-            root.style.setProperty('--hero-gradient', 'linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%)');
-        } else {
-            root.style.setProperty('--light-bg', '#eff6ff');
-            root.style.setProperty('--text-primary', '#1a202c');
-            root.style.setProperty('--text-secondary', '#4a5568');
-            root.style.setProperty('--card-bg', '#ffffff');
-            root.style.setProperty('--border-color', '#e2e8f0');
-            root.style.setProperty('--bg-primary', '#ffffff');
-            root.style.setProperty('--hero-gradient', 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%)');
-        }
     }
 
-    // Appliquer le thème au chargement
+    // Gestion des animations au défilement
     document.addEventListener('DOMContentLoaded', function() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        updatePageTheme(currentTheme);
+        // Initialiser le thème
+        initTheme();
+
+        // Observer pour les animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('feature-elegant')) {
+                        entry.target.classList.add('animate');
+                    } else if (entry.target.classList.contains('stat-card')) {
+                        entry.target.classList.add('animate');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observer les éléments à animer
+        document.querySelectorAll('[data-animate]').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Animation des chiffres des stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+        statNumbers.forEach(stat => {
+            const finalValue = stat.textContent;
+            if (finalValue.includes('+') || finalValue.includes('%')) {
+                stat.textContent = '0' + finalValue.slice(-1);
+                setTimeout(() => {
+                    stat.textContent = finalValue;
+                }, 1000);
+            }
+        });
+
+        // Effet de particules sur le hero (optionnel)
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                animation: floatParticle 6s ease-in-out infinite;
+            `;
+
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+
+            document.querySelector('.hero-elegant').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 6000);
+        }
+
+        // Créer quelques particules
+        for (let i = 0; i < 8; i++) {
+            setTimeout(createParticle, i * 800);
+        }
+
+        // Continuer à créer des particules périodiquement
+        setInterval(createParticle, 3000);
     });
 
-    // Écouter les changements de thème
+    // Ajout des keyframes pour les particules
+    const style = document.createElement('style');
+    style.textContent = `
+         floatParticle {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-40px) translateX(20px) scale(1.2);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Synchronisation du thème avec le layout
     window.addEventListener('themeChanged', function(event) {
-        updatePageTheme(event.detail);
+        const theme = event.detail;
+        const icon = document.getElementById('heroThemeIcon');
+        const text = document.getElementById('heroThemeText');
+
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-hero';
+            if (text) text.textContent = 'Mode Clair';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-hero';
+            if (text) text.textContent = 'Mode Sombre';
+        }
+
+        updateHeroGradient(theme);
     });
 </script>

@@ -543,9 +543,23 @@
                         <div class="product-footer">
                             <!-- Actions utilisateur normales -->
                             <div class="user-actions">
-                                <a asp-action="Details" asp-route-id="@product.ProductId" class="btn-elegant btn-primary-elegant">
-                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Détails
-                                </a>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <!-- Utilisateur connecté - Accès direct aux détails -->
+                                    <a asp-action="Details" asp-route-id="@product.ProductId" class="btn-elegant btn-primary-elegant">
+                                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Détails
+                                    </a>
+                                }
+                                else
+                                {
+                                    <!-- Utilisateur non connecté - Redirection vers Login avec returnUrl -->
+                                    <a asp-controller="Account"
+                                       asp-action="AccessDenied"
+                                       asp-route-returnUrl="@Url.Action("Details", "Product", new { id = product.ProductId })"
+                                       class="btn-elegant btn-primary-elegant">
+                                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Détails
+                                    </a>
+                                }
 
                                 @if (SignInManager.IsSignedIn(User))
                                 {

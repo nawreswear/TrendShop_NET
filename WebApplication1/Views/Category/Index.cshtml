@@ -5,9 +5,7 @@
 }
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
-<!----header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --header-bg: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
--->
+
 <style>
     :root {
         --page-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -301,8 +299,6 @@
     }
 </style>
 
-
-
 <div class="categories-page">
     <div class="container">
         <div class="page-header">
@@ -315,7 +311,7 @@
                 {
                     <a asp-action="Create" class="create-btn">
                         <i class="fas fa-plus-circle me-2"></i>
-                        Ajouter un Catégories
+                        Ajouter une Catégorie
                     </a>
                 }
             </div>
@@ -343,15 +339,30 @@
                             <tr>
                                 <td>
                                     <span class="category-name">
-                                        @(string.IsNullOrWhiteSpace(item.CategoryName) ? "Not specified" : item.CategoryName)
+                                        @(string.IsNullOrWhiteSpace(item.CategoryName) ? "Non spécifié" : item.CategoryName)
                                     </span>
                                 </td>
                                 <td>
                                     <div class="d-flex flex-wrap gap-2">
-                                        <a asp-action="Details" asp-route-id="@item.CategoryId" class="action-btn btn-details">
-                                            <i class="fas fa-info-circle"></i>
-                                            <span>Détails</span>
-                                        </a>
+                                        @if (SignInManager.IsSignedIn(User))
+                                        {
+                                            <!-- Utilisateur connecté - Accès direct aux détails -->
+                                            <a asp-action="Details" asp-route-id="@item.CategoryId" class="action-btn btn-details">
+                                                <i class="fas fa-info-circle"></i>
+                                                <span>Détails</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <!-- Utilisateur non connecté - Redirection vers Login -->
+                                            <a asp-controller="Account"
+                                               asp-action="AccessDenied"
+                                               asp-route-returnUrl="@Url.Action("Details", "Category", new { id = item.CategoryId })"
+                                               class="action-btn btn-details">
+                                                <i class="fas fa-info-circle"></i>
+                                                <span>Détails</span>
+                                            </a>
+                                        }
 
                                         @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
                                         {
