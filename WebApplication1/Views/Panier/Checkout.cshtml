@@ -1,0 +1,177 @@
+﻿@model WebApplication1.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<style>
+    .checkout-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .checkout-header {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        color: #2d3748;
+    }
+
+    .order-summary {
+        background: #f7fafc;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-top: 1rem;
+        border-top: 2px solid #e2e8f0;
+        padding-top: 1rem;
+    }
+
+    .payment-methods {
+        margin: 2rem 0;
+    }
+
+    .payment-method-btn {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .payment-method-btn:hover {
+        border-color: #667eea;
+        background: #f7fafc;
+    }
+
+    .payment-method-btn.active {
+        border-color: #667eea;
+        background: #e0e7ff;
+        color: #667eea;
+    }
+
+    .address-form {
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+    .btn-checkout {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-checkout:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-checkout:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
+
+<div class="checkout-container">
+    <h1 class="checkout-header">Finalisation de votre commande</h1>
+
+    <div class="order-summary">
+        <h3>Récapitulatif</h3>
+        @foreach (var item in Model.CartItems)
+        {
+            <div class="summary-item">
+                <span>@item.ProductName × @item.Quantity</span>
+                <span>@(item.Price* item.Quantity)DT</span>
+            </div>
+        }
+        <div class="total-amount">
+            Total: @Model.TotalAmount.ToString("0.00")DT
+        </div>
+
+    </div>
+
+    <div class="address-form">
+        <h3>Adresse de livraison</h3>
+        <form id="addressForm">
+            <div class="form-group">
+                <label for="address">Adresse</label>
+                <textarea id="address" name="address" rows="3" required></textarea>
+            </div>
+        </form>
+    </div>
+
+    <div class="payment-methods">
+        <h3>Méthode de paiement</h3>
+        <button type="button" class="payment-method-btn active" id="molliePaymentBtn">
+            💳 Payer avec Mollie
+        </button>
+    </div>
+
+    <button type="button" class="btn-checkout" id="checkoutBtn">
+        Procéder au paiement
+    </button>
+</div>
+<script>
+        async function handleCheckout() {
+        const response = await fetch("/api/StripePayment/create-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: 5, description: "Produit Test" })
+        });
+        const data = await response.json();
+        if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl; // redirige vers Stripe Checkout
+        } else {
+            console.error("Erreur paiement", data);
+        }
+    }
+
+    document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+</script>

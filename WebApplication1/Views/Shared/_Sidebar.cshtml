@@ -1,0 +1,144 @@
+﻿@* Sidebar Partial View - Extracted from _Layout.cshtml *@
+
+<div class="col-md-2 custom-sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h5>Catégories</h5>
+        <button class="btn-close-sidebar" onclick="toggleSidebar()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div id="categoriesContainer">
+        <!-- Initial state: show loader until categories are loaded -->
+        <div class="text-center p-4" id="categoriesLoader">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-2 text-muted">Chargement des catégories...</p>
+        </div>
+
+        <ul class="list-group" id="categoriesList">
+        </ul>
+    </div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<style>
+    .custom-sidebar {
+        background: white;
+        box-shadow: 4px 0 12px rgba(30, 58, 138, 0.1);
+        padding: 0;
+        min-height: 100vh;
+        position: fixed;
+        left: -280px;
+        top: 0;
+        width: 280px;
+        z-index: 1050;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+    }
+
+    /* Added dark mode support for sidebar */
+    [data-theme="dark"] .custom-sidebar {
+        background: #1e293b;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .custom-sidebar.sidebar-open {
+        left: 0;
+    }
+
+    .sidebar-header {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        color: white;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+        .sidebar-header h5 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+    .btn-close-sidebar {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .btn-close-sidebar:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+    #categoriesContainer {
+        padding: 1rem;
+    }
+
+    .custom-sidebar .list-group {
+        padding: 0;
+    }
+
+    .custom-sidebar .list-group-item {
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    /* Added dark mode colors for list items */
+    [data-theme="dark"] .custom-sidebar .list-group-item {
+        background: #334155;
+        color: #f1f5f9;
+        border-color: #475569;
+    }
+
+    .custom-sidebar .list-group-item:hover {
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+        .sidebar-overlay.overlay-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    @@media (max-width: 768px) {
+        .custom-sidebar {
+            width: 100%;
+            left: -100%;
+        }
+
+            .custom-sidebar.sidebar-open {
+                left: 0;
+            }
+    }
+</style>

@@ -1,0 +1,542 @@
+﻿@{
+    ViewData["Title"] = "Accueil";
+}
+
+<style>
+    /* Refined color palette with theme synchronization */
+    :root {
+        --primary-navy: #1e3a8a;
+        --primary-blue: #2563eb;
+        --accent-sky: #0ea5e9;
+        --light-bg: #eff6ff;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --card-bg: #ffffff;
+        --border-color: #e2e8f0;
+        --bg-primary: #ffffff;
+        --hero-gradient: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%);
+    }
+
+    [data-theme="dark"] {
+        --light-bg: #0f172a;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --bg-primary: #0f172a;
+        --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%);
+    }
+
+    /* Hero Section - Sophisticated and Minimal */
+    .hero-elegant {
+        min-height: 75vh;
+        background: var(--hero-gradient);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        /* Subtle geometric pattern overlay */
+        .hero-elegant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(30deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03)), linear-gradient(150deg, rgba(255, 255, 255, 0.03) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.03) 87.5%, rgba(255, 255, 255, 0.03));
+            background-size: 80px 140px;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+    .hero-content {
+        max-width: 900px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-elegant h1 {
+        font-size: 3.75rem;
+        font-weight: 300;
+        color: white;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Elegant text highlight with subtle animation */
+    .text-elegant-highlight {
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+    }
+
+        .text-elegant-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+        }
+
+    .hero-elegant .lead {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 300;
+        line-height: 1.7;
+        max-width: 700px;
+        margin: 0 auto 3rem;
+    }
+
+    /* Refined button styling without emojis */
+    .btn-elegant-primary {
+        background: white;
+        color: var(--primary-navy);
+        border: none;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        padding: 1rem 2.5rem;
+        border-radius: 8px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    }
+
+        .btn-elegant-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            background: #f8f9fa;
+            color: var(--primary-navy);
+        }
+
+    .btn-elegant-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        padding: 1rem 2.5rem;
+        border-radius: 8px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+    }
+
+        .btn-elegant-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+    /* Features Section - Synchronized with theme */
+    .features-elegant {
+        padding: 6rem 0;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+        transition: color 0.3s ease;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto 4rem;
+        transition: color 0.3s ease;
+    }
+
+    /* Professional feature cards synchronized with theme */
+    .feature-elegant {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border-color);
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .feature-elegant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--accent-sky));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-elegant:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.12);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+
+            .feature-elegant:hover::before {
+                transform: scaleX(1);
+            }
+
+    .feature-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 1.75rem;
+        font-weight: 600;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+
+    .feature-icon-security {
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        color: white;
+    }
+
+    .feature-icon-analytics {
+        background: linear-gradient(135deg, #2563eb 0%, #60a5fa 100%);
+        color: white;
+    }
+
+    .feature-icon-organization {
+        background: linear-gradient(135deg, #0ea5e9 0%, #7dd3fc 100%);
+        color: white;
+    }
+
+    .feature-elegant:hover .feature-icon {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    .feature-elegant h5 {
+        color: var(--text-primary);
+        font-size: 1.35rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        transition: color 0.3s ease;
+    }
+
+    .feature-elegant p {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 0;
+        font-weight: 300;
+        transition: color 0.3s ease;
+    }
+
+    /* Theme toggle button for this page */
+    .theme-toggle-hero {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .theme-toggle-btn-hero {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+
+        .theme-toggle-btn-hero:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+    .theme-icon-hero {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .theme-toggle-btn-hero:hover .theme-icon-hero {
+        transform: scale(1.1);
+    }
+
+    /* Theme-aware transitions */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .hero-elegant h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-elegant .lead {
+            font-size: 1.1rem;
+        }
+
+        .hero-elegant {
+            min-height: 65vh;
+        }
+
+        .features-elegant {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .btn-elegant-primary,
+        .btn-elegant-secondary {
+            padding: 0.875rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        .theme-toggle-hero {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .theme-toggle-btn-hero {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-text-hero {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-elegant h1 {
+            font-size: 2rem;
+        }
+
+        .hero-elegant .lead {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .theme-toggle-btn-hero {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
+        }
+    }
+</style>
+
+
+
+<!-- Hero Section -->
+<section class="hero-elegant d-flex align-items-center text-center">
+    <div class="container">
+        <div class="hero-content mx-auto">
+            <h1 class="mb-4">
+                Bienvenue sur <span class="text-elegant-highlight">TrendShop</span>
+            </h1>
+            <p class="lead">
+                Une plateforme moderne et intuitive pour gérer efficacement vos produits et catégories avec élégance et simplicité.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a class="btn btn-elegant-primary" asp-controller="Product" asp-action="Index">
+                    Voir les Produits
+                </a>
+                <a class="btn btn-elegant-secondary" asp-controller="Category" asp-action="Index">
+                    Voir les Catégories
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-elegant">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Fonctionnalités Principales</h2>
+            <p class="section-subtitle">
+                Découvrez les outils puissants qui simplifient la gestion de votre inventaire
+            </p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-elegant">
+                    <div class="feature-icon feature-icon-security">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h5>Sécurité Intégrée</h5>
+                    <p>Système d'authentification robuste avec gestion des rôles : Administrateur, Manager et Utilisateur.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-elegant">
+                    <div class="feature-icon feature-icon-analytics">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                    </div>
+                    <h5>Tableaux Intuitifs</h5>
+                    <p>Interface claire et performante pour le suivi en temps réel de vos produits et de vos stocks.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-elegant">
+                    <div class="feature-icon feature-icon-organization">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h5>Organisation Claire</h5>
+                    <p>Système de catégorisation avancé pour une navigation fluide et une gestion optimale de votre catalogue.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Fonction pour changer le thème
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const icon = document.getElementById('heroThemeIcon');
+        const text = document.getElementById('heroThemeText');
+
+        // Changer le thème
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Mettre à jour l'icône et le texte
+        if (newTheme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-hero';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-hero';
+            if (text) text.textContent = '';
+        }
+
+        // Mettre à jour le gradient de la hero section
+        updateHeroGradient(newTheme);
+
+        // Déclencher un événement pour les composants qui en ont besoin
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    // Fonction pour mettre à jour le gradient de la hero section
+    function updateHeroGradient(theme) {
+        const heroSection = document.querySelector('.hero-elegant');
+        if (heroSection) {
+            if (theme === 'dark') {
+                heroSection.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%)';
+            } else {
+                heroSection.style.background = 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%)';
+            }
+        }
+    }
+
+    // Synchronisation avec le thème du layout
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le thème au chargement
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.getElementById('heroThemeIcon');
+        const text = document.getElementById('heroThemeText');
+
+        // Appliquer le thème
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // Mettre à jour l'icône et le texte
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-hero';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-hero';
+            if (text) text.textContent = '';
+        }
+
+        // Mettre à jour le gradient de la hero section
+        updateHeroGradient(theme);
+
+        // Écouter les changements de thème depuis d'autres composants
+        window.addEventListener('themeChanged', function(event) {
+            const theme = event.detail;
+            const icon = document.getElementById('heroThemeIcon');
+            const text = document.getElementById('heroThemeText');
+
+            if (theme === 'dark') {
+                if (icon) icon.className = 'fas fa-sun theme-icon-hero';
+                if (text) text.textContent = '';
+            } else {
+                if (icon) icon.className = 'fas fa-moon theme-icon-hero';
+                if (text) text.textContent = '';
+            }
+
+            // Mettre à jour le gradient de la hero section
+            updateHeroGradient(theme);
+        });
+    });
+
+    function updatePageTheme(theme) {
+        // Mettre à jour les variables CSS spécifiques à la page
+        const root = document.documentElement;
+
+        if (theme === 'dark') {
+            root.style.setProperty('--light-bg', '#0f172a');
+            root.style.setProperty('--text-primary', '#f1f5f9');
+            root.style.setProperty('--text-secondary', '#cbd5e1');
+            root.style.setProperty('--card-bg', '#1e293b');
+            root.style.setProperty('--border-color', '#334155');
+            root.style.setProperty('--bg-primary', '#0f172a');
+            root.style.setProperty('--hero-gradient', 'linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #1e3a8a 100%)');
+        } else {
+            root.style.setProperty('--light-bg', '#eff6ff');
+            root.style.setProperty('--text-primary', '#1a202c');
+            root.style.setProperty('--text-secondary', '#4a5568');
+            root.style.setProperty('--card-bg', '#ffffff');
+            root.style.setProperty('--border-color', '#e2e8f0');
+            root.style.setProperty('--bg-primary', '#ffffff');
+            root.style.setProperty('--hero-gradient', 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0ea5e9 100%)');
+        }
+    }
+
+    // Appliquer le thème au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updatePageTheme(currentTheme);
+    });
+
+    // Écouter les changements de thème
+    window.addEventListener('themeChanged', function(event) {
+        updatePageTheme(event.detail);
+    });
+</script>

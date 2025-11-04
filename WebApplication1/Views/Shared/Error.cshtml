@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Page Not Found";
+    Layout = "_Layout"; // Assurez-vous d'utiliser votre layout
+}
+
+<div class="error-page-container">
+    <div class="error-content">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-description">
+            Sorry, the page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="error-actions">
+            <a href="@Url.Action("Index", "Product")" class="btn btn-primary error-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+            <a href="@Url.Action("Index", "Category")" class="btn btn-secondary error-btn">
+                <i class="fas fa-th"></i> Browse Categories
+            </a>
+        </div>
+    </div>
+    <div class="error-illustration">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <g opacity="0.1">
+                <circle cx="200" cy="200" r="150" fill="#2563eb" />
+                <path d="M200 100 L250 150 L250 250 Q200 280 150 250 L150 150 Z" fill="#0ea5e9" />
+            </g>
+        </svg>
+    </div>
+</div>
+
+<style>
+    .error-page-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        padding: 2rem;
+        position: relative;
+    }
+
+    .error-content {
+        text-align: center;
+        max-width: 600px;
+        z-index: 10;
+        position: relative;
+    }
+
+    .error-code {
+        font-size: 120px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        line-height: 1;
+    }
+
+    .error-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 1rem;
+    }
+
+    .error-description {
+        font-size: 1.1rem;
+        color: #4a5568;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .error-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary.error-btn {
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        color: white;
+    }
+
+        .btn-primary.error-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+    .btn-secondary.error-btn {
+        background: rgba(30, 58, 138, 0.1);
+        color: #1e3a8a;
+        border: 2px solid #1e3a8a;
+    }
+
+        .btn-secondary.error-btn:hover {
+            background: rgba(30, 58, 138, 0.2);
+            transform: translateY(-3px);
+        }
+
+    .error-illustration {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 300px;
+        height: 300px;
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    @@media (max-width: 768px) {
+        .error-code {
+            font-size: 80px;
+        }
+
+        .error-title {
+            font-size: 2rem;
+        }
+
+        .error-description {
+            font-size: 1rem;
+        }
+
+        .error-actions {
+            flex-direction: column;
+        }
+
+        .error-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .error-illustration {
+            display: none;
+        }
+    }
+</style>

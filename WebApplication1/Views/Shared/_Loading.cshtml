@@ -1,0 +1,127 @@
+﻿@* Loading Page Partial - Can be included when async operations are in progress *@
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-container">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <h3 class="loading-text">Loading...</h3>
+        <p class="loading-subtext">Please wait while we prepare your content</p>
+    </div>
+</div>
+
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        backdrop-filter: blur(4px);
+    }
+
+    .loading-container {
+        text-align: center;
+        color: white;
+    }
+
+    .loading-spinner {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        margin: 0 auto 2rem;
+    }
+
+    .spinner-ring {
+        box-sizing: border-box;
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+
+        .spinner-ring:nth-child(1) {
+            animation-delay: -0.45s;
+            border-color: #0ea5e9;
+        }
+
+        .spinner-ring:nth-child(2) {
+            animation-delay: -0.3s;
+            border-color: rgba(14, 165, 233, 0.6);
+        }
+
+        .spinner-ring:nth-child(3) {
+            animation-delay: -0.15s;
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .loading-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .loading-subtext {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border-width: 3px;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+@* JavaScript to control loading visibility *@
+<script>
+    function showLoading() {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.style.display = 'flex';
+        }
+    }
+
+    function hideLoading() {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+    }
+
+    // Auto-hide loading after 3 seconds if not manually hidden
+    window.addEventListener('load', function() {
+        setTimeout(hideLoading, 3000);
+    });
+</script>

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<WebApplication1.Models.Category>
+
+<style>
+    .categories-card {
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+        .categories-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+    .categories-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.25rem 1.5rem;
+        border: none;
+    }
+
+        .categories-header h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+
+    .categories-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .category-item {
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 0;
+        transition: all 0.2s ease;
+    }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-item:hover {
+            background: linear-gradient(90deg, #f8f9ff 0%, #ffffff 100%);
+        }
+
+    .category-link {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: #2d3748;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+        .category-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transition: height 0.2s ease;
+            border-radius: 0 4px 4px 0;
+        }
+
+    .category-item:hover .category-link::before {
+        height: 60%;
+    }
+
+    .category-link:hover {
+        color: #667eea;
+        padding-left: 2rem;
+    }
+
+    .empty-state {
+        padding: 2rem 1.5rem;
+        text-align: center;
+        color: #a0aec0;
+        font-style: italic;
+        font-size: 0.9rem;
+    }
+
+        .empty-state::before {
+            content: '📂';
+            display: block;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+        }
+</style>
+
+<div class="card categories-card">
+    <div class="card-header categories-header text-white">
+        <h5>Catégories</h5>
+    </div>
+    <ul class="list-group list-group-flush categories-list">
+        @if (Model == null || !Model.Any())
+        {
+            <li class="list-group-item category-item">
+                <div class="empty-state">Aucune catégorie disponible.</div>
+            </li>
+        }
+        else
+        {
+            @foreach (var categorie in Model)
+            {
+                <li class="list-group-item category-item">
+                    <a class="category-link"
+                       asp-controller="Product" asp-action="Index"
+                       asp-route-categoryId="@categorie.CategoryId">
+                        @categorie.CategoryName
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</div>

@@ -1,0 +1,377 @@
+﻿@model WebApplication1.Models.Category
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<style>
+    :root {
+        --page-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: #ffffff;
+        --header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --text-primary: #2c3e50;
+        --text-secondary: #718096;
+        --border-color: #e9ecef;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --danger-color: #e74c3c;
+        --success-color: #2ecc71;
+    }
+
+    [data-theme="dark"] {
+        --page-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --card-bg: #1e293b;
+        --header-bg: linear-gradient(135deg, #059669 0%, #047857 100%);
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --danger-color: #fc8181;
+        --success-color: #68d391;
+    }
+
+    body {
+        background: var(--page-bg);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    /* Page Header Styles - Same as "Nos Catégories" */
+    .page-header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 L1000,0 L1000,100 L0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            margin-top: 0.5rem;
+        }
+
+    .details-container {
+        max-width: 600px;
+        margin: 0 auto 60px auto;
+        padding: 0 20px;
+    }
+
+    .details-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        padding: 40px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        color: var(--text-primary);
+    }
+
+        .details-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px var(--shadow-color);
+        }
+
+    .card-header {
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+    }
+
+    .details-row {
+        display: flex;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-color);
+        align-items: center;
+    }
+
+        .details-row:last-child {
+            border-bottom: none;
+        }
+
+    .detail-label {
+        flex: 0 0 200px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+        flex: 1;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .action-buttons {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-edit {
+        background: var(--header-bg);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-back {
+        background: var(--card-bg);
+        color: var(--text-secondary);
+        border: 2px solid var(--border-color);
+        box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+        .btn-back:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+
+    /* Theme toggle button - Same style as categories page */
+    .theme-toggle-categories {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .theme-toggle-btn-categories {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+
+        .theme-toggle-btn-categories:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+    /* Theme-aware transitions */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @@media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+        }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .page-header .subtitle {
+                font-size: 1rem;
+            }
+
+        .details-container {
+            margin: 0 auto 30px auto;
+        }
+
+        .details-card {
+            padding: 25px;
+        }
+
+        .details-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .detail-label {
+            flex: none;
+        }
+
+        .theme-toggle-categories {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .theme-toggle-btn-categories {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-text-categories {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .theme-toggle-btn-categories {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
+        }
+    }
+</style>
+
+<!-- Page Header - Same style as "Nos Catégories" -->
+<div class="page-header">
+    <div class="container">
+        <h2>
+            <i class="fas fa-info-circle me-2"></i>
+            Détails de la Catégorie
+        </h2>
+        <div class="subtitle">Informations détaillées sur la catégorie</div>
+    </div>
+
+    <!-- Theme Toggle Button - Same as categories page -->
+   
+</div>
+
+<div class="container">
+    <div class="details-container">
+        <div class="details-card">
+            <h4 class="card-header">Informations de la Catégorie</h4>
+
+            <div class="details-row">
+                <dt class="detail-label">
+                    <i class="fas fa-tag me-2"></i>
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="detail-value">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-edit">
+                <i class="fas fa-edit me-2"></i>
+                Modifier
+            </a>
+            <a asp-action="Index" class="btn btn-back">
+                <i class="fas fa-arrow-left me-2"></i>
+                Retour à la Liste
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction pour changer le thème - Same as categories page
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const icon = document.getElementById('categoriesThemeIcon');
+        const text = document.getElementById('categoriesThemeText');
+
+        // Changer le thème
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Mettre à jour l'icône et le texte
+        if (newTheme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+            if (text) text.textContent = 'Mode Clair';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+            if (text) text.textContent = 'Mode Sombre';
+        }
+
+        // Déclencher un événement pour les composants qui en ont besoin
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    // Synchronisation avec le thème du layout
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le thème au chargement
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.getElementById('categoriesThemeIcon');
+        const text = document.getElementById('categoriesThemeText');
+
+        // Appliquer le thème
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // Mettre à jour l'icône et le texte
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+            if (text) text.textContent = '';
+        }
+
+        // Écouter les changements de thème depuis d'autres composants
+        window.addEventListener('themeChanged', function(event) {
+            const theme = event.detail;
+            const icon = document.getElementById('categoriesThemeIcon');
+            const text = document.getElementById('categoriesThemeText');
+
+            if (theme === 'dark') {
+                if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+                if (text) text.textContent = '';
+            } else {
+                if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+                if (text) text.textContent = '';
+            }
+        });
+    });
+</script>

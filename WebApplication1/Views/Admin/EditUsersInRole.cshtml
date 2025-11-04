@@ -1,0 +1,342 @@
+﻿@using WebApplication1.ViewModels
+@model List<UserRoleViewModel>
+@{
+    var roleId = ViewBag.roleId;
+}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --bg-color: #f8fafc;
+        --text-color: #2d3748;
+        --card-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --scrollbar-track: #f1f1f1;
+        --scrollbar-thumb: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --footer-bg: #f9fafb;
+        --checkbox-hover-bg: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        --secondary-btn-bg: #ffffff;
+        --secondary-btn-color: #667eea;
+        --secondary-btn-border: #667eea;
+    }
+
+    [data-theme="dark"] {
+        --primary-gradient: linear-gradient(135deg, #4c51bf 0%, #6b46c1 100%);
+        --bg-color: #1a202c;
+        --text-color: #e2e8f0;
+        --card-bg: #2d3748;
+        --border-color: #4a5568;
+        --scrollbar-track: #2d3748;
+        --scrollbar-thumb: linear-gradient(135deg, #4c51bf 0%, #6b46c1 100%);
+        --footer-bg: #2d3748;
+        --checkbox-hover-bg: linear-gradient(135deg, rgba(76, 81, 191, 0.1) 0%, rgba(107, 70, 193, 0.1) 100%);
+        --secondary-btn-bg: #2d3748;
+        --secondary-btn-color: #a3bffa;
+        --secondary-btn-border: #4c51bf;
+    }
+
+    .role-management-container {
+        min-height: 100vh;
+        min-width: 1024vh;
+        background: var(--bg-color);
+        padding: 40px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .role-management-card {
+        max-width: 700px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        animation: fadeInUp 0.6s ease-out;
+        transition: all 0.3s ease;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .role-card-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+        .role-card-header h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+    .role-card-body {
+        padding: 30px;
+        max-height: 500px;
+        overflow-y: auto;
+        background: var(--card-bg);
+        transition: all 0.3s ease;
+    }
+
+        .role-card-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .role-card-body::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 10px;
+        }
+
+        .role-card-body::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+
+    .user-checkbox-item {
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        background: var(--card-bg);
+        color: var(--text-color);
+    }
+
+        .user-checkbox-item:hover {
+            border-color: #667eea;
+            background: var(--checkbox-hover-bg);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .user-checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .user-checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .user-checkbox-item input[type="checkbox"]:checked ~ label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+    [data-theme="dark"] .user-checkbox-item input[type="checkbox"]:checked ~ label {
+        color: #a3bffa;
+    }
+
+    .role-card-footer {
+        padding: 25px 30px;
+        background: var(--footer-bg);
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .role-btn {
+        padding: 12px 32px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .role-btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+        .role-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            color: white;
+        }
+
+    .role-btn-secondary {
+        background: var(--secondary-btn-bg);
+        color: var(--secondary-btn-color);
+        border: 2px solid var(--secondary-btn-border);
+    }
+
+        .role-btn-secondary:hover {
+            background: var(--secondary-btn-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+    [data-theme="dark"] .theme-toggle {
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+    /* Dark mode specific adjustments */
+    [data-theme="dark"] .user-checkbox-item:hover {
+        border-color: #4c51bf;
+        box-shadow: 0 4px 12px rgba(76, 81, 191, 0.2);
+    }
+
+    [data-theme="dark"] .role-btn-secondary:hover {
+        background: #4c51bf;
+        border-color: #4c51bf;
+    }
+
+    [data-theme="dark"] .role-management-card {
+        border: 1px solid var(--border-color);
+    }
+
+    @@media (max-width: 768px) {
+        .role-management-container {
+            padding: 20px 10px;
+            min-width: auto;
+        }
+
+        .role-card-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .role-card-body {
+            padding: 20px;
+        }
+
+        .role-card-footer {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .role-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .theme-toggle {
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+        }
+    }
+
+    /* Responsive adjustments for very large screens */
+    @@media (min-width: 1920px) {
+        .role-management-container {
+            min-width: auto;
+            width: 100%;
+        }
+    }
+</style>
+
+
+
+<div class="role-management-container">
+    <form method="post">
+        <div class="role-management-card">
+            <div class="role-card-header">
+                <h2>Ajouter ou retirer des utilisateurs de ce rôle</h2>
+            </div>
+            <div class="role-card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="user-checkbox-item">
+                        <input type="hidden" asp-for="@Model[i].UserId" />
+                        <input type="hidden" asp-for="@Model[i].UserName" />
+                        <input asp-for="@Model[i].IsSelected" type="checkbox" id="user-@i" />
+                        <label asp-for="@Model[i].IsSelected" for="user-@i">
+                            @Model[i].UserName
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="role-card-footer">
+                <input type="submit" value="Mettre à jour" class="role-btn role-btn-primary" />
+                <a asp-action="EditRole" asp-route-id="@roleId" class="role-btn role-btn-secondary">Annuler</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Theme management
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme preference or default to 'light'
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'light' ? '' : '';
+        }
+    });
+</script>

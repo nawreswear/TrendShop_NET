@@ -1,0 +1,449 @@
+﻿@model WebApplication1.Models.Order
+
+<style>
+    :root {
+        --page-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --border-color: #e9ecef;
+        --hover-bg: linear-gradient(90deg, #f8f9ff 0%, #fff 100%);
+        --header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-color: #10b981;
+        --success-light: #d1fae5;
+    }
+
+    [data-theme="dark"] {
+        --page-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --card-bg: #1e293b;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --hover-bg: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+        --header-bg: linear-gradient(135deg, #059669 0%, #047857 100%);
+        --success-color: #34d399;
+        --success-light: #065f46;
+    }
+
+    .success-page {
+        background: var(--page-bg);
+        min-height: 100vh;
+        min-width: 100vw;
+        padding: 2rem 0;
+        transition: background 0.3s ease;
+    }
+
+    /* NOUVEAU HEADER STYLE COMME LES CATÉGORIES */
+    .page-header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        margin-bottom: 2rem;
+    }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+    .success-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Animated success checkmark icon */
+    .success-icon-wrapper {
+        margin: 0 auto 2rem;
+        width: 80px;
+        height: 80px;
+    }
+
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        animation: scaleIn 0.5s ease-in-out;
+    }
+
+    .success-icon-circle {
+        stroke: var(--success-color);
+        stroke-width: 2;
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .success-icon-check {
+        stroke: var(--success-color);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+    }
+
+    @@keyframes strokeCircle {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @@keyframes strokeCheck {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @@keyframes scaleIn {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Enhanced success title styling */
+    .success-title {
+        color: var(--success-color);
+        font-weight: 700;
+        font-size: 2rem;
+        animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    .lead {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        animation: fadeInUp 0.6s ease-out 0.5s both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Modern card design for order details */
+    .order-details {
+        background: var(--card-bg) !important;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color);
+        animation: fadeInUp 0.6s ease-out 0.7s both;
+        color: var(--text-primary);
+    }
+
+        .order-details h2 {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.5rem;
+            border-bottom: 3px solid var(--success-color);
+            padding-bottom: 0.75rem;
+        }
+
+    /* Enhanced detail rows with hover effects */
+    .detail-row {
+        transition: all 0.3s ease;
+        padding: 1rem 0.5rem !important;
+        border-radius: 8px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+        .detail-row:hover {
+            background: var(--hover-bg);
+            padding-left: 1rem !important;
+        }
+
+        .detail-row span.detail-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .detail-row span.detail-value {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+    .text-success {
+        color: var(--success-color) !important;
+        font-size: 1.25rem !important;
+    }
+
+    /* Modern button styling with gradients */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+        }
+
+    .btn-outline-secondary {
+        border: 2px solid var(--border-color);
+        color: var(--text-secondary);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: var(--card-bg);
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-outline-secondary:hover {
+            background: var(--hover-bg);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+    /* Theme Toggle Button */
+    .theme-toggle-success {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .theme-toggle-btn-success {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+
+        .theme-toggle-btn-success:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+    /* Theme-aware transitions */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Responsive design improvements */
+    @@media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+        }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+        .success-title {
+            font-size: 1.5rem;
+        }
+
+        .order-details {
+            padding: 1.5rem !important;
+        }
+
+        .btn-lg {
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle-success {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .theme-toggle-btn-success {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-text-success {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .success-page {
+            padding: 1rem 0;
+        }
+
+        .page-header {
+            padding: 1rem;
+        }
+
+            .page-header h1 {
+                font-size: 1.25rem;
+            }
+
+        .theme-toggle-btn-success {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="success-page">
+    <div class="container">
+        <!-- NOUVEAU HEADER STYLE COMME LES CATÉGORIES -->
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h1>
+                    <i class="fas fa-check-circle me-2"></i>
+                    Commande Validée
+                </h1>
+            </div>
+        </div>
+
+        <div class="success-content">
+            <!-- Enhanced success message with animated checkmark icon -->
+            <div class="text-center mb-5">
+                <div class="success-icon-wrapper">
+                    <svg class="success-icon" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="success-icon-circle" cx="26" cy="26" r="25" fill="none" />
+                        <path class="success-icon-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                    </svg>
+                </div>
+                <h1 class="success-title mb-3">Votre commande a été validée avec succès !</h1>
+                <p class="lead">Merci pour votre achat, <strong>@Model.CustomerName</strong> ! Votre commande a bien été enregistrée.</p>
+            </div>
+
+            <div class="order-details p-4 shadow rounded">
+                <h2 class="mb-4">Récapitulatif de votre commande</h2>
+
+                <div class="detail-row d-flex justify-content-between py-2">
+                    <span class="detail-label fw-bold">Numéro de commande :</span>
+                    <span class="detail-value">@Model.Id</span>
+                </div>
+
+                <div class="detail-row d-flex justify-content-between py-2">
+                    <span class="detail-label fw-bold">Date :</span>
+                    <span class="detail-value">@Model.OrderDate.ToString("dd/MM/yyyy à HH:mm")</span>
+                </div>
+
+                <div class="detail-row d-flex justify-content-between py-2">
+                    <span class="detail-label fw-bold">Montant total :</span>
+                    <span class="detail-value text-success fw-bold">@Model.TotalAmount.ToString("0.00") DT</span>
+                </div>
+
+                <div class="detail-row d-flex justify-content-between py-2">
+                    <span class="detail-label fw-bold">Adresse de livraison :</span>
+                    <span class="detail-value">@Model.Address</span>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="~/Product/Index" class="btn btn-primary btn-lg me-2">Retour aux produits</a>
+                <a href="~/Home/Index" class="btn btn-outline-secondary btn-lg">Accueil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction pour changer le thème
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const icon = document.getElementById('successThemeIcon');
+        const text = document.getElementById('successThemeText');
+
+        // Changer le thème
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Mettre à jour l'icône et le texte
+        if (newTheme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-success';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-success';
+            if (text) text.textContent = '';
+        }
+
+        // Déclencher un événement pour les composants qui en ont besoin
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    // Synchronisation avec le thème du layout
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le thème au chargement
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.getElementById('successThemeIcon');
+        const text = document.getElementById('successThemeText');
+
+        // Appliquer le thème
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // Mettre à jour l'icône et le texte
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-success';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-success';
+            if (text) text.textContent = '';
+        }
+
+        // Écouter les changements de thème depuis d'autres composants
+        window.addEventListener('themeChanged', function(event) {
+            const theme = event.detail;
+            const icon = document.getElementById('successThemeIcon');
+            const text = document.getElementById('successThemeText');
+
+            if (theme === 'dark') {
+                if (icon) icon.className = 'fas fa-sun theme-icon-success';
+                if (text) text.textContent = '';
+            } else {
+                if (icon) icon.className = 'fas fa-moon theme-icon-success';
+                if (text) text.textContent = '';
+            }
+        });
+    });
+</script>

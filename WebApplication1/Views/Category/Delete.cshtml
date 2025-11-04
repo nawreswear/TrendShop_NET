@@ -1,0 +1,309 @@
+﻿@model WebApplication1.Models.Category
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<style>
+    :root {
+        --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: #ffffff;
+        --text-color: #212529;
+        --text-secondary: #6c757d;
+        --warning-bg: #fff3cd;
+        --warning-border: #ffc107;
+        --danger-gradient: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        --border-color: #e9ecef;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --hover-shadow: rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme="dark"] {
+        --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --card-bg: #2d3748;
+        --text-color: #e2e8f0;
+        --text-secondary: #a0aec0;
+        --warning-bg: #453411;
+        --warning-border: #d69e2e;
+        --danger-gradient: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+        --border-color: #4a5568;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --hover-shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+        background: var(--bg-gradient);
+        min-height: 100vh;
+        padding: 0px 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    .delete-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px var(--shadow-color);
+        padding: 40px;
+        animation: fadeInUp 0.5s ease-out;
+        color: var(--text-color);
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .delete-container h1 {
+        color: #dc3545;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    [data-theme="dark"] .delete-container h1 {
+        color: #fc8181;
+    }
+
+    .delete-container h3 {
+        color: var(--text-color);
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 30px;
+        text-align: center;
+        padding: 20px;
+        background: var(--warning-bg);
+        border-left: 4px solid var(--warning-border);
+        border-radius: 8px;
+    }
+
+    .delete-container h4 {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .delete-container hr {
+        display: none;
+    }
+
+    .delete-container dl.row {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 2px solid var(--border-color);
+    }
+
+    .delete-container dt {
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .delete-container dd {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .delete-container form {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .delete-container .btn-danger {
+        background: var(--danger-gradient);
+        border: none;
+        color: white;
+        padding: 12px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    [data-theme="dark"] .delete-container .btn-danger {
+        box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
+    }
+
+    .delete-container .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    }
+
+    [data-theme="dark"] .delete-container .btn-danger:hover {
+        box-shadow: 0 6px 20px rgba(229, 62, 62, 0.6);
+    }
+
+    .delete-container .btn-danger:active {
+        transform: translateY(0);
+    }
+
+    .delete-container a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 12px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid var(--border-color);
+        background: var(--card-bg);
+    }
+
+        .delete-container a:hover {
+            color: var(--text-color);
+            background: var(--card-bg);
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--hover-shadow);
+        }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        color: var(--text-color);
+    }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+    [data-theme="dark"] .theme-toggle {
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--text-color);
+    }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+    @@media (max-width: 768px) {
+        .delete-container {
+            margin: 20px;
+            padding: 30px 20px;
+        }
+
+            .delete-container h1 {
+                font-size: 1.75rem;
+            }
+
+            .delete-container h3 {
+                font-size: 1.1rem;
+            }
+
+            .delete-container form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .delete-container .btn-danger,
+            .delete-container a {
+                width: 100%;
+                text-align: center;
+            }
+
+        .theme-toggle {
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+
+
+<div class="delete-container">
+    <h1>Supprimer</h1>
+
+    <h3>Êtes-vous sûr de vouloir supprimer ceci ?</h3>
+
+    <div>
+        <h4>Catégorie</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="CategoryId" />
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+            <a asp-action="Index">Annuler</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Theme management
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme preference or default to 'light'
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeIcon.textContent = theme === 'light' ? '' : '';
+        }
+    });
+</script>

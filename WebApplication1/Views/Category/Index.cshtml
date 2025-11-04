@@ -1,0 +1,445 @@
+﻿@model IEnumerable<WebApplication1.Models.Category>
+
+@{
+    ViewData["Title"] = "Catégories";
+}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+<!----header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --header-bg: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+-->
+<style>
+    :root {
+        --page-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: #ffffff;
+        --header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --text-secondary: #718096;
+        --border-color: #e9ecef;
+        --hover-bg: linear-gradient(90deg, #f8f9ff 0%, #fff 100%);
+        --create-btn-bg: #ffffff;
+        --create-btn-color: #667eea;
+        --empty-state-color: #718096;
+        --empty-state-icon: #cbd5e0;
+    }
+
+    [data-theme="dark"] {
+        --page-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --card-bg: #1e293b;
+        --header-bg: linear-gradient(135deg, #059669 0%, #047857 100%);
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --hover-bg: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+        --create-btn-bg: #334155;
+        --create-btn-color: #e2e8f0;
+        --empty-state-color: #94a3b8;
+        --empty-state-icon: #475569;
+    }
+
+    .categories-page {
+        background: var(--page-bg);
+        min-height: 100vh;
+        min-width: 100vw;
+        padding: 2rem 0;
+        transition: background 0.3s ease;
+    }
+
+    .page-header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        margin-bottom: 2rem;
+    }
+
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+    .create-btn {
+        background: var(--create-btn-bg);
+        color: var(--create-btn-color);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            color: var(--create-btn-color);
+        }
+
+    .categories-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+    }
+
+        .categories-card:hover {
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+        }
+
+    .table-modern {
+        margin: 0;
+        background: var(--card-bg);
+    }
+
+        .table-modern thead {
+            background: var(--header-bg);
+            color: white;
+        }
+
+            .table-modern thead th {
+                border: none;
+                padding: 1.25rem 1.5rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                letter-spacing: 0.5px;
+            }
+
+        .table-modern tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+        }
+
+            .table-modern tbody tr:hover {
+                background: var(--hover-bg);
+                transform: scale(1.01);
+            }
+
+        .table-modern tbody td {
+            padding: 1.25rem 1.5rem;
+            vertical-align: middle;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            background: var(--card-bg);
+        }
+
+    .category-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1rem;
+    }
+
+    .action-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .action-btn i {
+            font-size: 0.875rem;
+        }
+
+    .btn-details {
+        background: #e3f2fd;
+        color: #1976d2;
+        border-color: #1976d2;
+    }
+
+        .btn-details:hover {
+            background: #1976d2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+
+    .btn-edit {
+        background: #f3e5f5;
+        color: #7b1fa2;
+        border-color: #7b1fa2;
+    }
+
+        .btn-edit:hover {
+            background: #7b1fa2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
+        }
+
+    .btn-delete {
+        background: #ffebee;
+        color: #c62828;
+        border-color: #c62828;
+    }
+
+        .btn-delete:hover {
+            background: #c62828;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--empty-state-color);
+        background: var(--card-bg);
+    }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+    /* Theme toggle button */
+    .theme-toggle-categories {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .theme-toggle-btn-categories {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+
+        .theme-toggle-btn-categories:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+    /* Theme-aware transitions */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @@media (max-width: 768px) {
+        .page-header {
+            padding: 1.5rem;
+        }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .table-modern tbody td {
+            padding: 1rem;
+        }
+
+        .theme-toggle-categories {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .theme-toggle-btn-categories {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-text-categories {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .categories-page {
+            padding: 1rem 0;
+        }
+
+        .theme-toggle-btn-categories {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
+        }
+    }
+</style>
+
+
+
+<div class="categories-page">
+    <div class="container">
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h2 class="cat">
+                    <i class="fas fa-layer-group me-2"></i>
+                    Nos Catégories
+                </h2>
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+                {
+                    <a asp-action="Create" class="create-btn">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Ajouter un Catégories
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="categories-card">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table table-modern">
+                    <thead>
+                        <tr>
+                            <th>
+                                <i class="fas fa-tag me-2"></i>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryName)
+                            </th>
+                            <th style="width: 280px;">
+                                <i class="fas fa-cog me-2"></i>
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="category-name">
+                                        @(string.IsNullOrWhiteSpace(item.CategoryName) ? "Not specified" : item.CategoryName)
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a asp-action="Details" asp-route-id="@item.CategoryId" class="action-btn btn-details">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Détails</span>
+                                        </a>
+
+                                        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.CategoryId" class="action-btn btn-edit">
+                                                <i class="fas fa-edit"></i>
+                                                <span>Modifier</span>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.CategoryId" class="action-btn btn-delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                                <span>Supprimer</span>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-folder-open"></i>
+                    <h4>Aucune Catégorie Trouvée</h4>
+                    <p>Commencez par créer votre première catégorie pour organiser votre contenu.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction pour changer le thème
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const icon = document.getElementById('categoriesThemeIcon');
+        const text = document.getElementById('categoriesThemeText');
+
+        // Changer le thème
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Mettre à jour l'icône et le texte
+        if (newTheme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+            if (text) text.textContent = '';
+        }
+
+        // Déclencher un événement pour les composants qui en ont besoin
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    // Synchronisation avec le thème du layout
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le thème au chargement
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.getElementById('categoriesThemeIcon');
+        const text = document.getElementById('categoriesThemeText');
+
+        // Appliquer le thème
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // Mettre à jour l'icône et le texte
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+            if (text) text.textContent = '';
+        }
+
+        // Écouter les changements de thème depuis d'autres composants
+        window.addEventListener('themeChanged', function(event) {
+            const theme = event.detail;
+            const icon = document.getElementById('categoriesThemeIcon');
+            const text = document.getElementById('categoriesThemeText');
+
+            if (theme === 'dark') {
+                if (icon) icon.className = 'fas fa-sun theme-icon-categories';
+                if (text) text.textContent = '';
+            } else {
+                if (icon) icon.className = 'fas fa-moon theme-icon-categories';
+                if (text) text.textContent = '';
+            }
+        });
+    });
+</script>

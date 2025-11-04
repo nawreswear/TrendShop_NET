@@ -1,0 +1,674 @@
+﻿@model IEnumerable<WebApplication1.Models.Product>
+
+@{
+    ViewData["Title"] = "Liste des produits";
+}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<style>
+    :root {
+        --page-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: #ffffff;
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --border-color: #e9ecef;
+        --hover-bg: linear-gradient(90deg, #f8f9ff 0%, #fff 100%);
+        --create-btn-bg: #ffffff;
+        --create-btn-color: #667eea;
+        --empty-state-color: #718096;
+        --empty-state-icon: #cbd5e0;
+        --header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    [data-theme="dark"] {
+        --page-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        --card-bg: #1e293b;
+        --text-primary: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --hover-bg: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+        --create-btn-bg: #334155;
+        --create-btn-color: #e2e8f0;
+        --empty-state-color: #94a3b8;
+        --empty-state-icon: #475569;
+        /* CHANGEMENT ICI : Nouveau dégradé pour le header en mode sombre */
+        --header-bg: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .products-page {
+        background: var(--page-bg);
+        min-height: 100vh;
+        min-width: 100vw;
+        padding: 2rem 0;
+        transition: background 0.3s ease;
+    }
+
+    .page-header {
+        background: var(--header-bg);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+    }
+
+        .page-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+    .create-btn {
+        background: var(--create-btn-bg);
+        color: var(--create-btn-color);
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            color: var(--create-btn-color);
+        }
+
+    /* Styles existants pour les produits */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .product-card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+
+    .product-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        background: var(--card-bg);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.08);
+    }
+
+    .product-body {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background: var(--card-bg);
+    }
+
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+
+        .product-title strong {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    .product-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+
+    .product-detail-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        transition: color 0.3s ease;
+    }
+
+        .product-detail-item strong {
+            color: var(--text-secondary);
+            font-weight: 600;
+            min-width: 80px;
+            font-size: 0.85rem;
+        }
+
+    .product-price {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #3498db;
+        transition: color 0.3s ease;
+    }
+
+    .product-category {
+        display: inline-block;
+        background: var(--card-bg);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .product-footer {
+        padding: 1.25rem 1.5rem;
+        background: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .user-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+
+    .admin-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .btn-elegant {
+        padding: 0.625rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .btn-success-elegant {
+        background: #27ae60;
+        color: white;
+        border-color: #27ae60;
+    }
+
+        .btn-success-elegant:hover {
+            background: #219a52;
+            border-color: #219a52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+    .btn-primary-elegant {
+        background: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+
+        .btn-primary-elegant:hover {
+            background: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+    .btn-secondary-elegant {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border-color: var(--text-primary);
+    }
+
+        .btn-secondary-elegant:hover {
+            background: var(--text-primary);
+            color: var(--card-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+        }
+
+    .btn-warning-elegant {
+        background: #f39c12;
+        color: white;
+        border-color: #f39c12;
+    }
+
+        .btn-warning-elegant:hover {
+            background: #e67e22;
+            border-color: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+
+    .btn-danger-elegant {
+        background: #e74c3c;
+        color: white;
+        border-color: #e74c3c;
+    }
+
+        .btn-danger-elegant:hover {
+            background: #c0392b;
+            border-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 3rem;
+        padding: 2rem 0;
+        flex-wrap: wrap;
+    }
+
+    .pagination-btn {
+        min-width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: var(--card-bg);
+        color: var(--text-primary);
+        border: 2px solid var(--border-color);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+        .pagination-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: var(--empty-state-color);
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+    /* Theme toggle button */
+    .theme-toggle-products {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .theme-toggle-btn-products {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 0.9rem;
+    }
+
+        .theme-toggle-btn-products:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+    /* Theme-aware transitions */
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @@media (max-width: 1024px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .page-header {
+            padding: 1.5rem;
+        }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+        .product-image-wrapper {
+            height: 200px;
+        }
+
+        .product-body {
+            padding: 1rem;
+        }
+
+        .product-footer {
+            padding: 1rem;
+        }
+
+        .user-actions,
+        .admin-actions {
+            flex-direction: column;
+        }
+
+        .btn-elegant {
+            width: 100%;
+            min-width: auto;
+        }
+
+        .theme-toggle-products {
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .theme-toggle-btn-products {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-text-products {
+            display: none;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .products-page {
+            padding: 1rem 0;
+        }
+
+        .page-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+        }
+
+        .btn-elegant {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-toggle-btn-products {
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="products-page">
+    <div class="container">
+        <!-- Nouveau header style comme les catégories -->
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h2 class="prod">
+                    <i class="fas fa-boxes me-2"></i>
+                    Liste des Produits
+                </h2>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <a asp-action="Create" class="create-btn">
+                        <i class="fas fa-plus-circle me-2"></i>
+                        Ajouter un Produit
+                    </a>
+                }
+            </div>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="products-grid">
+                @foreach (var product in Model)
+                {
+                    var photoPath = "~/images/" + (product.ImagePath ?? "noimage.jpg");
+
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="@photoPath" asp-append-version="true" alt="@product.Name" />
+                        </div>
+
+                        <div class="product-body">
+                            <h5 class="product-title">
+                                <strong>Nom:</strong> @product.Name
+                            </h5>
+
+                            <div class="product-details">
+                                <div class="product-detail-item">
+                                    <strong>Prix:</strong>
+                                    <span class="product-price">@product.Price.ToString("0.00") Dt</span>
+                                </div>
+                                <div class="product-detail-item">
+                                    <strong>Quantité:</strong>
+                                    <span>@product.QteStock </span>
+                                </div>
+                                <div class="product-detail-item">
+                                    <strong>Catégorie:</strong>
+                                    <span class="product-category">@product.Category?.CategoryName</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-footer">
+                            <!-- Actions utilisateur normales -->
+                            <div class="user-actions">
+                                <a asp-action="Details" asp-route-id="@product.ProductId" class="btn-elegant btn-primary-elegant">
+                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Détails
+                                </a>
+
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a asp-controller="Panier" asp-action="AddProduct" asp-route-id="@product.ProductId" class="btn-elegant btn-secondary-elegant">
+                                        <i class="fas fa-cart-plus" style="margin-right: 8px;"></i> Ajouter
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="Login" class="btn-elegant btn-secondary-elegant">
+                                        <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i> Connecter
+                                    </a>
+                                }
+                            </div>
+
+                            <!-- Actions administrateur -->
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                            {
+                                <div class="admin-actions">
+                                    <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn-elegant btn-warning-elegant">
+                                        <i class="fas fa-edit" style="margin-right: 8px;"></i> Modifier
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn-elegant btn-danger-elegant">
+                                        <i class="fas fa-trash" style="margin-right: 8px;"></i> Supprimer
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (ViewBag.TotalPages > 1)
+            {
+                <div class="pagination-wrapper">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <a asp-action="Index" asp-route-categoryId="@ViewBag.CategoryId"
+                           asp-route-page="@i" class="pagination-btn">
+                            @i
+                        </a>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h4>Aucun Produit Trouvé</h4>
+                <p>Commencez par créer votre premier produit pour enrichir votre catalogue.</p>
+
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <div class="mt-4">
+                        <a asp-action="Create" class="create-btn">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Ajouter un Produit
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    // Fonction pour changer le thème
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const icon = document.getElementById('productsThemeIcon');
+        const text = document.getElementById('productsThemeText');
+
+        // Changer le thème
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Mettre à jour l'icône et le texte
+        if (newTheme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-products';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-products';
+            if (text) text.textContent = '';
+        }
+
+        // Déclencher un événement pour les composants qui en ont besoin
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: newTheme }));
+    }
+
+    // Synchronisation avec le thème du layout
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser le thème au chargement
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.getElementById('productsThemeIcon');
+        const text = document.getElementById('productsThemeText');
+
+        // Appliquer le thème
+        document.documentElement.setAttribute('data-theme', theme);
+
+        // Mettre à jour l'icône et le texte
+        if (theme === 'dark') {
+            if (icon) icon.className = 'fas fa-sun theme-icon-products';
+            if (text) text.textContent = '';
+        } else {
+            if (icon) icon.className = 'fas fa-moon theme-icon-products';
+            if (text) text.textContent = '';
+        }
+
+        // Écouter les changements de thème depuis d'autres composants
+        window.addEventListener('themeChanged', function(event) {
+            const theme = event.detail;
+            const icon = document.getElementById('productsThemeIcon');
+            const text = document.getElementById('productsThemeText');
+
+            if (theme === 'dark') {
+                if (icon) icon.className = 'fas fa-sun theme-icon-products';
+                if (text) text.textContent = '';
+            } else {
+                if (icon) icon.className = 'fas fa-moon theme-icon-products';
+                if (text) text.textContent = '';
+            }
+        });
+    });
+</script>
