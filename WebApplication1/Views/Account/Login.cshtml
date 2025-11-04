@@ -16,11 +16,112 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+        }
+
+        @@keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Particules animées */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @@keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Effet de brillance */
+        .shine-effect {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: shineRotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @@keyframes shineRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animation d'ondes */
+        .waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="white"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="white"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="white"/></svg>');
+            background-size: 1200px 100px;
+            animation: wave 25s linear infinite;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        @@keyframes wave {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-1200px);
+            }
         }
 
         .registration-container {
@@ -29,16 +130,22 @@
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .registration-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
             padding: 40px;
             width: 100%;
             max-width: 450px;
-            animation: fadeInUp 0.6s ease-out;
+            animation: fadeInUp 0.8s ease-out, cardGlow 4s ease-in-out infinite alternate;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         @@keyframes fadeInUp {
@@ -53,12 +160,63 @@
             }
         }
 
+        @@keyframes cardGlow {
+            0% {
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            }
+
+            100% {
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 30px rgba(102, 126, 234, 0.2);
+            }
+        }
+
+        /* Effet de bordure animée */
+        .registration-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #667eea);
+            background-size: 400% 400%;
+            border-radius: 22px;
+            z-index: -1;
+            animation: borderGlow 3s ease infinite;
+            opacity: 0.7;
+        }
+
+        @@keyframes borderGlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
         .registration-title {
             font-size: 2rem;
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 10px;
             text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleShine 3s ease-in-out infinite alternate;
+        }
+
+        @@keyframes titleShine {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
         }
 
         .registration-subtitle {
@@ -66,19 +224,59 @@
             text-align: center;
             margin-bottom: 30px;
             font-size: 0.95rem;
+            animation: subtitleFade 2s ease-in-out;
+        }
+
+        @@keyframes subtitleFade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .form-group {
             margin-bottom: 20px;
+            animation: formSlide 0.6s ease-out;
+            animation-fill-mode: both;
         }
 
-            .form-group label {
-                display: block;
-                font-weight: 600;
-                color: #4a5568;
-                margin-bottom: 8px;
-                font-size: 0.9rem;
+            .form-group:nth-child(1) {
+                animation-delay: 0.1s;
             }
+
+            .form-group:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .form-group:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+        @@keyframes formSlide {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
 
         .form-control {
             width: 100%;
@@ -87,14 +285,16 @@
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background-color: #f7fafc;
+            background-color: rgba(247, 250, 252, 0.8);
+            backdrop-filter: blur(10px);
         }
 
             .form-control:focus {
                 outline: none;
                 border-color: #667eea;
                 background-color: white;
-                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(102, 126, 234, 0.2);
+                transform: translateY(-2px);
             }
 
         .btn-register {
@@ -110,16 +310,32 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 2s ease-in-out infinite alternate;
         }
 
-            .btn-register:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        @@keyframes buttonPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
             }
 
-            .btn-register:active {
-                transform: translateY(0);
+            100% {
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
             }
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            animation: none;
+        }
+
+        .btn-register:active {
+            transform: translateY(0) scale(1);
+        }
 
         .btn-login-link {
             width: 100%;
@@ -135,6 +351,8 @@
             text-decoration: none;
             display: block;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
             .btn-login-link:hover {
@@ -150,14 +368,43 @@
             font-size: 0.85rem;
             margin-top: 5px;
             display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @@keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
         }
 
         .validation-summary {
-            background-color: #fff5f5;
+            background-color: rgba(255, 245, 245, 0.9);
             border: 1px solid #feb2b2;
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 20px;
+            animation: slideDown 0.5s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @@keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .validation-summary-errors {
@@ -170,13 +417,65 @@
             text-align: center;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .login-text {
             color: #718096;
             margin-bottom: 10px;
             font-size: 0.9rem;
+        }
+
+        /* Animation de succès après soumission */
+        .success-animation {
+            animation: successBounce 0.6s ease-out;
+        }
+
+        @@keyframes successBounce {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Loading animation */
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @@media (max-width: 576px) {
@@ -187,16 +486,25 @@
             .registration-title {
                 font-size: 1.5rem;
             }
+
+            .waves {
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Éléments d'animation de fond -->
+    <div class="particles" id="particles"></div>
+    <div class="shine-effect"></div>
+    <div class="waves"></div>
+
     <div class="registration-container">
         <div class="registration-card">
             <h1 class="registration-title">Inscription</h1>
             <p class="registration-subtitle">Créez votre compte pour commencer</p>
 
-            <form method="post">
+            <form method="post" id="registerForm">
                 <div asp-validation-summary="All" class="text-danger validation-summary"></div>
 
                 <div class="form-group">
@@ -217,7 +525,10 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn-register">S'inscrire</button>
+                <button type="submit" class="btn-register" id="submitBtn">
+                    <span class="loading-spinner" id="loadingSpinner"></span>
+                    <span id="submitText">S'inscrire</span>
+                </button>
             </form>
 
             <div class="login-link-container">
@@ -232,5 +543,122 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Génération des particules animées
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Taille aléatoire
+                const size = Math.random() * 60 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // Position de départ aléatoire
+                particle.style.left = `${Math.random() * 100}vw`;
+
+                // Délai d'animation aléatoire
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+
+                // Durée d'animation aléatoire
+                const duration = 15 + Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Effet de saisie fluide
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Effet de hover sur la carte
+            const card = document.querySelector('.registration-card');
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.01)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+
+            // Animation du formulaire
+            const form = document.getElementById('registerForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const submitText = document.getElementById('submitText');
+
+            form.addEventListener('submit', function(e) {
+                // Animation de chargement
+                submitBtn.disabled = true;
+                loadingSpinner.style.display = 'inline-block';
+                submitText.textContent = 'Inscription...';
+
+                // Animation de succès simulée (à adapter selon votre logique backend)
+                setTimeout(() => {
+                    card.classList.add('success-animation');
+                    setTimeout(() => {
+                        card.classList.remove('success-animation');
+                    }, 600);
+                }, 1000);
+            });
+
+            // Animation des labels au focus
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    const label = this.previousElementSibling;
+                    if (label && label.tagName === 'LABEL') {
+                        label.style.color = '#667eea';
+                        label.style.transform = 'translateY(-2px)';
+                    }
+                });
+
+                input.addEventListener('blur', function() {
+                    const label = this.previousElementSibling;
+                    if (label && label.tagName === 'LABEL') {
+                        label.style.color = '#4a5568';
+                        label.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+        });
+
+        // Animation du titre
+        const title = document.querySelector('.registration-title');
+        setInterval(() => {
+            title.style.backgroundPosition = title.style.backgroundPosition === '0% 50%' ? '100% 50%' : '0% 50%';
+        }, 3000);
+
+        // Effet de parallaxe sur les particules
+        document.addEventListener('mousemove', function(e) {
+            const particles = document.querySelectorAll('.particle');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            particles.forEach(particle => {
+                const speed = parseFloat(particle.style.animationDuration) || 20;
+                const moveX = (mouseX - 0.5) * 20;
+                const moveY = (mouseY - 0.5) * 20;
+
+                particle.style.transform += ` translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
